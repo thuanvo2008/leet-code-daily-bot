@@ -37,20 +37,9 @@ func (c *DiscordClient) PostDailyChallenge(question *model.Question, date string
 		return fmt.Errorf("failed to create request: %w", err)
 	}
 
-	response, err := c.requestSender.SendRequest(req)
+	_, err = c.requestSender.SendRequest(req)
 	if err != nil {
 		return fmt.Errorf("failed to post to Discord: %w", err)
-	}
-
-	// Parse response to get message ID for thread creation
-	var discordResponse model.DiscordResponse
-	if err := json.Unmarshal(response, &discordResponse); err != nil {
-		return fmt.Errorf("failed to decode Discord response: %w", err)
-	}
-
-	// Create a thread on the message
-	if err := c.createThread(discordResponse.ID, question.Title); err != nil {
-		return fmt.Errorf("failed to create thread: %w", err)
 	}
 
 	// Success case
