@@ -1,0 +1,26 @@
+name: Daily Bot CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24.2'
+
+      - name: Build
+        run: go build ./...
+
+      - name: Run
+        run: go run ./...
