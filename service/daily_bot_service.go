@@ -44,7 +44,6 @@ func (s *Service) ProcessDailyChallenge() {
 	date := resp.Data.ActiveDailyCodingChallengeQuestion.Date
 
 	err = s.discordClient.PostDailyChallenge(question, date)
-
 	if err != nil {
 		s.logger.Printf("Error posting to Discord: %v", err)
 		return
